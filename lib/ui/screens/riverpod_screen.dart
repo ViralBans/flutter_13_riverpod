@@ -90,7 +90,7 @@ class _RiverpodScreenState extends State<RiverpodScreen>
                                       ref.read(listProvider.notifier).getList();
                                       ref
                                           .read(basketProvider.notifier)
-                                          .checkBasket(element.id);
+                                          .checkInBasket(element.id);
                                     },
                                     child: ref.watch(basketProvider)
                                         ? const Text(

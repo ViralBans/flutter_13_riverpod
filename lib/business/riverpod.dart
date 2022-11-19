@@ -32,7 +32,7 @@ class ListState extends StateNotifier<List<String>> {
 class BasketState extends StateNotifier<bool> {
   BasketState(): super(false);
 
-  void checkBasket(int id) {
+  void checkInBasket(int id) {
     state = GetIt.I.get<Basket>().checkItemInBasket(id);
   }
 }
