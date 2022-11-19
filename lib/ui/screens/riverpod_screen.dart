@@ -11,6 +11,8 @@ final listProvider =
     StateNotifierProvider<ListState, List<String>>((ref) => ListState());
 final basketProvider =
     StateNotifierProvider<BasketState, bool>((ref) => BasketState());
+final selectProvider =
+    StateNotifierProvider<SelectState, bool>((ref) => SelectState());
 
 class RiverpodScreen extends StatefulWidget {
   const RiverpodScreen({Key? key}) : super(key: key);
@@ -42,34 +44,36 @@ class _RiverpodScreenState extends State<RiverpodScreen>
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Consumer(builder: (context, ref, _) {
-                        final count = ref.watch(countProvider);
-                        final list = ref.watch(listProvider);
+                      Consumer(
+                        builder: (context, ref, _) {
+                          final count = ref.watch(countProvider);
+                          final list = ref.watch(listProvider);
 
-                        return Container(
-                          width: double.infinity,
-                          color: count == 0 ? Colors.red : Colors.green,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                            child: count == 0
-                                ? const Text(
-                                    'В корзине пусто',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                : Text(
-                                    'В корзине - $count продуктов ${list.toString()}',
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                          ),
-                        );
-                      }),
+                          return Container(
+                            width: double.infinity,
+                            color: count == 0 ? Colors.red : Colors.green,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                              child: count == 0
+                                  ? const Text(
+                                      'В корзине пусто',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  : Text(
+                                      'В корзине - $count продуктов ${list.toString()}',
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                            ),
+                          );
+                        },
+                      ),
                       Expanded(
                         child: ListView(
                           children: GetIt.I
@@ -83,23 +87,32 @@ class _RiverpodScreenState extends State<RiverpodScreen>
                                 trailing: Consumer(
                                   builder: (context, ref, _) => TextButton(
                                     onPressed: () {
-                                      ref.read(basketProvider.notifier).checkInBasket(
-                                          element.id,
-                                          element.name,
-                                          element.cost);
+                                      ref
+                                          .read(basketProvider.notifier)
+                                          .checkInBasket(element.id,
+                                              element.name, element.cost);
                                       ref.read(listProvider.notifier).getList();
-                                      ref.read(countProvider.notifier).getCount();
+                                      ref
+                                          .read(countProvider.notifier)
+                                          .getCount();
+                                      ref
+                                          .read(selectProvider.notifier)
+                                          .checkSelect(element.id);
                                     },
-                                    child: ref.watch(basketProvider)
-                                        ? const Text(
-                                            'Удалить',
-                                            style: TextStyle(color: Colors.red),
-                                          )
-                                        : const Text(
-                                            'Добавить',
-                                            style:
-                                                TextStyle(color: Colors.green),
-                                          ),
+                                    child: Consumer(
+                                      builder: (context, ref, _) => ref
+                                              .watch(selectProvider)
+                                          ? const Text(
+                                              'Удалить',
+                                              style:
+                                                  TextStyle(color: Colors.red),
+                                            )
+                                          : const Text(
+                                              'Добавить',
+                                              style: TextStyle(
+                                                  color: Colors.green),
+                                            ),
+                                    ),
                                   ),
                                 ),
                               ),

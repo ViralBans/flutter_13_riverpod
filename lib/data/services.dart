@@ -18,7 +18,11 @@ class Basket {
   }
 
   bool checkItemInBasket(int id) {
-    return _basketList.containsKey(id);
+    if(_basketList.containsKey(id)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   int getBasketItems() {
