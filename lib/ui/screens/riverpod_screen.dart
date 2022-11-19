@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../business/functions.dart';
 import '../../business/riverpod.dart';
+import '../../data/services.dart';
 
 final countProvider =
     StateNotifierProvider<CountState, int>((ref) => CountState());
@@ -32,7 +32,7 @@ class _RiverpodScreenState extends State<RiverpodScreen>
       ),
       body: SafeArea(
         child: FutureBuilder(
-          future: GetIt.I.get<ProductListGenerate>().getFruitList(),
+          future: GetIt.I.get<DataNetwork>().getFruitList(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
@@ -77,7 +77,7 @@ class _RiverpodScreenState extends State<RiverpodScreen>
                       Expanded(
                         child: ListView(
                           children: GetIt.I
-                              .get<ProductListGenerate>()
+                              .get<DataNetwork>()
                               .fl
                               .map((element) {
                             return Card(
@@ -87,21 +87,12 @@ class _RiverpodScreenState extends State<RiverpodScreen>
                                 trailing: Consumer(
                                   builder: (context, ref, _) => TextButton(
                                     onPressed: () {
-                                      ref
-                                          .read(basketProvider.notifier)
-                                          .checkInBasket(element.id,
-                                              element.name, element.cost);
+                                      ref.read(basketProvider.notifier).updateInBasket(element.id, element.name, element.cost);
                                       ref.read(listProvider.notifier).getList();
-                                      ref
-                                          .read(countProvider.notifier)
-                                          .getCount();
-                                      ref
-                                          .read(selectProvider.notifier)
-                                          .checkSelect(element.id);
+                                      ref.read(countProvider.notifier).getCount();
+                                      ref.read(selectProvider.notifier).checkSelect(element.id);
                                     },
-                                    child: Consumer(
-                                      builder: (context, ref, _) => ref
-                                              .watch(selectProvider)
+                                    child: ref.watch(selectProvider)
                                           ? const Text(
                                               'Удалить',
                                               style:
@@ -112,7 +103,6 @@ class _RiverpodScreenState extends State<RiverpodScreen>
                                               style: TextStyle(
                                                   color: Colors.green),
                                             ),
-                                    ),
                                   ),
                                 ),
                               ),

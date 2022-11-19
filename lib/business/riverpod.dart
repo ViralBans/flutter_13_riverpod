@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 
-import '../data/services.dart';
+import 'functions.dart';
 
 class CountState extends StateNotifier<int> {
   CountState() : super(0);
@@ -24,7 +24,7 @@ class ListState extends StateNotifier<List<String>> {
 class BasketState extends StateNotifier<bool> {
   BasketState(): super(false);
 
-  void checkInBasket(int id, String name, double cost) {
+  void updateInBasket(int id, String name, double cost) {
     if (GetIt.I.get<Basket>().checkItemInBasket(id)) {
       GetIt.I.get<Basket>().deleteItem(id);
       GetIt.I.get<Basket>().ls.remove(name);
@@ -38,7 +38,7 @@ class BasketState extends StateNotifier<bool> {
 class SelectState extends StateNotifier<bool> {
   SelectState(): super(false);
 
-  bool checkSelect(int id) {
-    return state = GetIt.I.get<Basket>().checkItemInBasket(id);
+  void checkSelect(int id) {
+    state = GetIt.I.get<Basket>().checkItemInBasket(id);
   }
 }
