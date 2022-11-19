@@ -19,7 +19,6 @@ mixin _$Food {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   double get cost => throw _privateConstructorUsedError;
-  bool get isSelected => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FoodCopyWith<Food> get copyWith => throw _privateConstructorUsedError;
@@ -30,7 +29,7 @@ abstract class $FoodCopyWith<$Res> {
   factory $FoodCopyWith(Food value, $Res Function(Food) then) =
       _$FoodCopyWithImpl<$Res, Food>;
   @useResult
-  $Res call({int id, String name, double cost, bool isSelected});
+  $Res call({int id, String name, double cost});
 }
 
 /// @nodoc
@@ -49,7 +48,6 @@ class _$FoodCopyWithImpl<$Res, $Val extends Food>
     Object? id = null,
     Object? name = null,
     Object? cost = null,
-    Object? isSelected = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -64,10 +62,6 @@ class _$FoodCopyWithImpl<$Res, $Val extends Food>
           ? _value.cost
           : cost // ignore: cast_nullable_to_non_nullable
               as double,
-      isSelected: null == isSelected
-          ? _value.isSelected
-          : isSelected // ignore: cast_nullable_to_non_nullable
-              as bool,
     ) as $Val);
   }
 }
@@ -78,7 +72,7 @@ abstract class _$$_FoodCopyWith<$Res> implements $FoodCopyWith<$Res> {
       __$$_FoodCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, double cost, bool isSelected});
+  $Res call({int id, String name, double cost});
 }
 
 /// @nodoc
@@ -93,7 +87,6 @@ class __$$_FoodCopyWithImpl<$Res> extends _$FoodCopyWithImpl<$Res, _$_Food>
     Object? id = null,
     Object? name = null,
     Object? cost = null,
-    Object? isSelected = null,
   }) {
     return _then(_$_Food(
       id: null == id
@@ -108,10 +101,6 @@ class __$$_FoodCopyWithImpl<$Res> extends _$FoodCopyWithImpl<$Res, _$_Food>
           ? _value.cost
           : cost // ignore: cast_nullable_to_non_nullable
               as double,
-      isSelected: null == isSelected
-          ? _value.isSelected
-          : isSelected // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -119,11 +108,7 @@ class __$$_FoodCopyWithImpl<$Res> extends _$FoodCopyWithImpl<$Res, _$_Food>
 /// @nodoc
 
 class _$_Food implements _Food {
-  _$_Food(
-      {required this.id,
-      required this.name,
-      required this.cost,
-      required this.isSelected});
+  _$_Food({required this.id, required this.name, required this.cost});
 
   @override
   final int id;
@@ -131,12 +116,10 @@ class _$_Food implements _Food {
   final String name;
   @override
   final double cost;
-  @override
-  final bool isSelected;
 
   @override
   String toString() {
-    return 'Food(id: $id, name: $name, cost: $cost, isSelected: $isSelected)';
+    return 'Food(id: $id, name: $name, cost: $cost)';
   }
 
   @override
@@ -146,13 +129,11 @@ class _$_Food implements _Food {
             other is _$_Food &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.cost, cost) || other.cost == cost) &&
-            (identical(other.isSelected, isSelected) ||
-                other.isSelected == isSelected));
+            (identical(other.cost, cost) || other.cost == cost));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, cost, isSelected);
+  int get hashCode => Object.hash(runtimeType, id, name, cost);
 
   @JsonKey(ignore: true)
   @override
@@ -165,8 +146,7 @@ abstract class _Food implements Food {
   factory _Food(
       {required final int id,
       required final String name,
-      required final double cost,
-      required final bool isSelected}) = _$_Food;
+      required final double cost}) = _$_Food;
 
   @override
   int get id;
@@ -174,8 +154,6 @@ abstract class _Food implements Food {
   String get name;
   @override
   double get cost;
-  @override
-  bool get isSelected;
   @override
   @JsonKey(ignore: true)
   _$$_FoodCopyWith<_$_Food> get copyWith => throw _privateConstructorUsedError;

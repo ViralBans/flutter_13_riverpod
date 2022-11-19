@@ -83,14 +83,12 @@ class _RiverpodScreenState extends State<RiverpodScreen>
                                 trailing: Consumer(
                                   builder: (context, ref, _) => TextButton(
                                     onPressed: () {
-                                      ref
-                                          .read(countProvider.notifier)
-                                          .addInBasket(element.id, element.name,
-                                              element.cost, true);
+                                      ref.read(basketProvider.notifier).checkInBasket(
+                                          element.id,
+                                          element.name,
+                                          element.cost);
                                       ref.read(listProvider.notifier).getList();
-                                      ref
-                                          .read(basketProvider.notifier)
-                                          .checkInBasket(element.id);
+                                      ref.read(countProvider.notifier).getCount();
                                     },
                                     child: ref.watch(basketProvider)
                                         ? const Text(
