@@ -22,7 +22,7 @@ class ListState extends StateNotifier<List<String>> {
 }
 
 class BasketState extends StateNotifier<bool> {
-  BasketState(): super(false);
+  BasketState(): super(true);
 
   void updateInBasket(int id, String name, double cost) {
     if (GetIt.I.get<Basket>().checkItemInBasket(id)) {

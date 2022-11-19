@@ -76,33 +76,37 @@ class _RiverpodScreenState extends State<RiverpodScreen>
                       ),
                       Expanded(
                         child: ListView(
-                          children: GetIt.I
-                              .get<DataNetwork>()
-                              .fl
-                              .map((element) {
-                            return Card(
-                              child: ListTile(
-                                title: Text(element.name),
-                                subtitle: Text('Цена: ${element.cost} руб.'),
-                                trailing: Consumer(
-                                  builder: (context, ref, _) => TextButton(
+                          children:
+                              GetIt.I.get<DataNetwork>().fl.map((element) {
+                            return Consumer(
+                              builder: (context, ref, _) => Card(
+                                child: ListTile(
+                                  title: Text(element.name),
+                                  subtitle: Text('Цена: ${element.cost} руб.'),
+                                  trailing: TextButton(
                                     onPressed: () {
-                                      ref.read(basketProvider.notifier).updateInBasket(element.id, element.name, element.cost);
+                                      ref
+                                          .read(basketProvider.notifier)
+                                          .updateInBasket(element.id,
+                                              element.name, element.cost);
                                       ref.read(listProvider.notifier).getList();
-                                      ref.read(countProvider.notifier).getCount();
-                                      ref.read(selectProvider.notifier).checkSelect(element.id);
+                                      ref
+                                          .read(countProvider.notifier)
+                                          .getCount();
+                                      ref
+                                          .read(selectProvider.notifier)
+                                          .checkSelect(element.id);
                                     },
                                     child: ref.watch(selectProvider)
-                                          ? const Text(
-                                              'Удалить',
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                            )
-                                          : const Text(
-                                              'Добавить',
-                                              style: TextStyle(
-                                                  color: Colors.green),
-                                            ),
+                                        ? const Text(
+                                            'Удалить',
+                                            style: TextStyle(color: Colors.red),
+                                          )
+                                        : const Text(
+                                            'Добавить',
+                                            style:
+                                                TextStyle(color: Colors.green),
+                                          ),
                                   ),
                                 ),
                               ),
