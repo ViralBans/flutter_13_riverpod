@@ -9,20 +9,24 @@ class Basket {
 
   List<String> ls = [];
 
-  void addItem(int id, String name, double cost) {
-    _basketList.addAll({id : Food(id: id, name: name, cost: cost)});
+  void addItem(int id, String name, double cost, bool isSelected) {
+    _basketList.addAll({id : Food(id: id, name: name, cost: cost, isSelected: isSelected)});
   }
 
   void deleteItem(int id) {
     _basketList.remove(id);
   }
 
-  void updateItem(int id, String name, double cost) {
-    _basketList.update(id, (value) => Food(id: id, name: name, cost: cost));
-  }
-
   bool checkItemInBasket(int id) {
     return _basketList.containsKey(id);
+  }
+
+  bool checkSelection(int id) {
+    if(_basketList.containsKey(id)) {
+      return _basketList[id]!.isSelected;
+    } else {
+      return false;
+    }
   }
 
   int getBasketItems() {

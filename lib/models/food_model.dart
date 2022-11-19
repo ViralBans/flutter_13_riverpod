@@ -4,5 +4,5 @@ part 'food_model.freezed.dart';
 
 @freezed
 class Food with _$Food {
-  factory Food({required int id, required String name, required double cost}) = _Food;
+  factory Food({required int id, required String name, required double cost, required bool isSelected}) = _Food;
 }

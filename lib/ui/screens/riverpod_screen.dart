@@ -83,10 +83,10 @@ class _RiverpodScreenState extends State<RiverpodScreen>
                                 trailing: Consumer(
                                   builder: (context, ref, _) => TextButton(
                                     onPressed: () {
-                                      ref.read(countProvider.notifier).getCount(
-                                          element.id,
-                                          element.name,
-                                          element.cost);
+                                      ref
+                                          .read(countProvider.notifier)
+                                          .addInBasket(element.id, element.name,
+                                              element.cost, true);
                                       ref.read(listProvider.notifier).getList();
                                       ref
                                           .read(basketProvider.notifier)
@@ -95,12 +95,12 @@ class _RiverpodScreenState extends State<RiverpodScreen>
                                     child: ref.watch(basketProvider)
                                         ? const Text(
                                             'Удалить',
-                                            style:
-                                                TextStyle(color: Colors.red),
+                                            style: TextStyle(color: Colors.red),
                                           )
                                         : const Text(
                                             'Добавить',
-                                            style: TextStyle(color: Colors.green),
+                                            style:
+                                                TextStyle(color: Colors.green),
                                           ),
                                   ),
                                 ),
