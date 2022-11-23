@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../business/functions.dart';
 import '../../business/riverpod.dart';
 import '../../data/services.dart';
 
@@ -14,25 +15,18 @@ final basketProvider =
 final selectProvider =
     StateNotifierProvider<SelectState, bool>((ref) => SelectState());
 
-class RiverpodScreen extends StatefulWidget {
+class RiverpodScreen extends StatelessWidget {
   const RiverpodScreen({Key? key}) : super(key: key);
 
   @override
-  State<RiverpodScreen> createState() => _RiverpodScreenState();
-}
-
-class _RiverpodScreenState extends State<RiverpodScreen>
-    with AutomaticKeepAliveClientMixin {
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Riverpod'),
       ),
       body: SafeArea(
         child: FutureBuilder(
-          future: GetIt.I.get<DataNetwork>().getFruitList(),
+          future: GetIt.I.get<DataNetwork>().getData(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
@@ -75,43 +69,50 @@ class _RiverpodScreenState extends State<RiverpodScreen>
                         },
                       ),
                       Expanded(
-                        child: ListView(
-                          children:
-                              GetIt.I.get<DataNetwork>().fl.map((element) {
-                            return Consumer(
-                              builder: (context, ref, _) => Card(
-                                child: ListTile(
-                                  title: Text(element.name),
-                                  subtitle: Text('Цена: ${element.cost} руб.'),
-                                  trailing: TextButton(
+                        child: ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context, index) => Card(
+                            child: ListTile(
+                              title: Text(snapshot.data[index].name),
+                              subtitle: Text(
+                                  'Цена: ${snapshot.data[index].cost} руб.'),
+                              trailing: Consumer(
+                                builder: (context, ref, child) {
+                                  ref.watch(selectProvider);
+
+                                  return TextButton(
                                     onPressed: () {
                                       ref
+                                          .read(selectProvider.notifier)
+                                          .updateButton(
+                                              snapshot.data[index].name);
+                                      ref
                                           .read(basketProvider.notifier)
-                                          .updateInBasket(element.id,
-                                              element.name, element.cost);
+                                          .updateElementInBasket(
+                                              snapshot.data[index].id,
+                                              snapshot.data[index].name,
+                                              snapshot.data[index].cost);
                                       ref.read(listProvider.notifier).getList();
                                       ref
                                           .read(countProvider.notifier)
                                           .getCount();
-                                      ref
-                                          .read(selectProvider.notifier)
-                                          .checkSelect(element.id);
+                                      print(GetIt.I.get<Basket>().select[snapshot.data[index].name]);
                                     },
-                                    child: ref.watch(selectProvider)
-                                        ? const Text(
-                                            'Удалить',
-                                            style: TextStyle(color: Colors.red),
-                                          )
-                                        : const Text(
-                                            'Добавить',
-                                            style:
-                                                TextStyle(color: Colors.green),
-                                          ),
-                                  ),
-                                ),
+                                    child: (GetIt.I.get<Basket>().select[snapshot.data[index].name] ?? !GetIt.I.get<Basket>().select[snapshot.data[index].name]!)
+                                            ? const Text(
+                                          'Удалить',
+                                          style: TextStyle(color: Colors.red),
+                                        )
+                                            : const Text(
+                                          'Добавить',
+                                          style:
+                                          TextStyle(color: Colors.green),
+                                        ),
+                                  );
+                                },
                               ),
-                            );
-                          }).toList(),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -125,7 +126,4 @@ class _RiverpodScreenState extends State<RiverpodScreen>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

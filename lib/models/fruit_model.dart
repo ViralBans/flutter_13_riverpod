@@ -7,9 +7,11 @@ class Fruit {
   final int id;
   final String name;
   final double cost;
+
+  @JsonKey(defaultValue: false)
   final bool isSelected;
 
-  Fruit({required this.id, required this.name, required this.cost, this.isSelected = false});
+  Fruit({required this.id, required this.name, required this.cost, required this.isSelected});
 
   factory Fruit.fromJson(Map<String, dynamic> json) => _$FruitFromJson(json);
   Map<String, dynamic> toJson() => _$FruitToJson(this);
