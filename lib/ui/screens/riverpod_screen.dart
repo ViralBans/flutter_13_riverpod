@@ -96,7 +96,6 @@ class RiverpodScreen extends StatelessWidget {
                                       ref
                                           .read(countProvider.notifier)
                                           .getCount();
-                                      print(GetIt.I.get<Basket>().select[snapshot.data[index].name]);
                                     },
                                     child: (GetIt.I.get<Basket>().select[snapshot.data[index].name] ?? !GetIt.I.get<Basket>().select[snapshot.data[index].name]!)
                                             ? const Text(
